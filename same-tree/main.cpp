@@ -21,64 +21,23 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
     };
 
-bool hasEqualChildren(TreeNode* p, TreeNode* q) {
-    if (p->left != nullptr && q->left == nullptr
-    || p->left == nullptr && q->left != nullptr
-    || p->right != nullptr && q->right == nullptr
-    || p->right == nullptr && q->right != nullptr) {
-        return false;
-    }
 
-    return true;
-}
 
 bool isSameTree(TreeNode* p, TreeNode* q) {
 
-    // edge cases
     if (p == nullptr && q != nullptr
         || p != nullptr && q == nullptr) {
         return false;
     }
 
-    if (p == nullptr && q ==nullptr) {
+    if (p == nullptr && q == nullptr) {
         return true;
     }
-    std::queue<TreeNode *> nodeQueue;
-
-    // we will try using one queue for both trees
-    nodeQueue.push(p);
-    nodeQueue.push(q);
-
-    while (!nodeQueue.empty()) {
-
-            TreeNode *pNode = nodeQueue.front();
-            nodeQueue.pop();
-            TreeNode *qNode = nodeQueue.front();
-            nodeQueue.pop();
-
-
-            if (pNode->val != qNode->val) {
-                return false;
-            }
-
-            // make sure p and q have the same structure at the next level down
-            if (!hasEqualChildren(pNode, qNode)) {
-                return false;
-            }
-
-            if (pNode->left != nullptr) {
-                nodeQueue.push(pNode->left);
-                nodeQueue.push(qNode->left);
-            }
-
-            if (pNode->right != nullptr) {
-                nodeQueue.push(pNode->right);
-                nodeQueue.push(qNode->right);
-            }
+    if (p->val != q->val) {
+        return false;
     }
 
-    return true;
-
+    return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
 
 }
 
@@ -147,7 +106,7 @@ int main() {
         )
     );
 
-    std::cout << isSameTree(tree1, tree1copy) << std::endl;
+    std::cout << isSameTree(tree1, tree2) << std::endl;
 
 
 
