@@ -51,6 +51,28 @@ ListNode* reverseList(ListNode* head) {
 
 }
 
+ListNode* reverseListIterative(ListNode* head) {
+
+    if (head->next == nullptr) {
+        return head;
+    }
+    ListNode* prev = head;
+    ListNode* curr = head;
+    ListNode* next = head->next;
+
+    // prev will be the new tail
+    prev->next = nullptr;
+
+    while (next != nullptr) {
+        curr = next;
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+    }
+
+    return curr;
+}
+
 int main() {
 
     ListNode four(4);
@@ -59,6 +81,6 @@ int main() {
     ListNode one(1, &two);
 
 
-    ListNode* reversed = reverseList(&one);
+    ListNode* reversed = reverseListIterative(&one);
     return 0;
 }
